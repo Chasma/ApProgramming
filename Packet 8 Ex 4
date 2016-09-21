@@ -1,0 +1,98 @@
+import TurtleGraphics.KeyboardReader;
+
+
+public class packet8ex2 {
+	static int[] numbers=new int[51];
+	public static void main(String[] args) {
+	
+		// by Jan Matthew Tameta
+
+		KeyboardReader reader=new KeyboardReader();
+
+		int entry = 0,count=0,max=0,min=50,median = 0,total = 0;
+		double average = 0;
+		boolean init=false;
+		do
+		{
+			if(init)
+			{
+				while(entry>50||entry<-1||entry==0)
+				{
+					System.out.println("Invalid entry; must be between 1 and 50. Enter another number.");
+					entry=reader.readInt();
+				}
+				if(entry==-1)
+					break;
+				else if(entry!=-1)
+					numbers[entry]++;
+
+				if(entry>max)
+					max=entry;
+				if(entry<min)
+					min=entry;
+				total=entry+total;
+				count++;
+			}
+			System.out.println("Enter a number between 1 and 50 (-1 to stop):");
+			entry=reader.readInt();
+			init=true;
+		}
+		while(entry!=-1);
+		average=(double)total/(double)count;
+		median=total/count;
+		System.out.println("Median \t: "+median);
+		System.out.println("Average : "+average);
+		Mode();
+		System.out.println("Maximum : "+max);
+		System.out.println("Minimum : "+min);
+		System.out.println("Range \t: "+(max-min));
+		Histogram(); 
+	}
+	private static void Mode() 
+	{
+		System.out.print("Mode :");
+		int mode,currentguess=0;
+		mode=(int) Occurences();
+		for(int i=0; i<=50; i++)
+		{
+			currentguess=numbers[i];
+			if(currentguess==mode)
+				System.out.print(" "+i);
+		}
+		System.out.println(" ");
+	}
+	private static int Occurences() 
+	{
+		int currentguess, highest=0;
+		for(int i=0; i<=50; i++)
+		{
+			currentguess=numbers[i];
+			if(currentguess>highest)
+				highest=currentguess;
+		}
+		return highest;
+	}
+	private static void Histogram() 
+	{
+		int histocount=1;
+		while(histocount!=51)
+		{
+			System.out.print(histocount+"-"+(histocount+4)+"\t : ");
+			PrintChar(numbers[histocount]);
+			PrintChar(numbers[histocount+1]);
+			PrintChar(numbers[histocount+2]);
+			PrintChar(numbers[histocount+3]);
+			PrintChar(numbers[histocount+4]);
+			System.out.println("");
+			histocount=histocount+5;
+		}
+	}
+
+	public static void PrintChar(int i)
+	{
+		for(int x=0; x<i; x++)
+		{
+			System.out.print(" ★");
+		}
+	}
+}
