@@ -1,0 +1,288 @@
+import TurtleGraphics.KeyboardReader;
+public class packet8ex8b
+{
+
+	public static void main(String[] args) throws InterruptedException 
+	{
+		// by Jan Matthew Tameta 
+		KeyboardReader reader=new KeyboardReader();
+		String inputanswer="";
+		int inputlength=0;
+
+		inputanswer=reader.readLine("Enter in a word to be guessed!\t").toUpperCase();
+		char[] answer = inputanswer.toUpperCase().toCharArray();
+		inputlength=inputanswer.length();
+		int[] letters = new int[26]; // all possible letters
+		boolean debug=false;
+		for(int x=0; x<90000; x++)
+		{
+			if(!debug)
+				System.out.println();
+		}
+
+		for(int x=0; x<26; x++) 
+		{
+			letters[x]=0;
+			char i = toChar(x);
+			if(debug)
+				System.out.print(i);
+		}
+		System.out.println();
+
+		for(int x=0; x<inputlength; x++) 
+		{
+			int y = toInt(answer[x]);
+			if (debug)
+			{
+				System.out.println("y is "+y);
+				System.out.println("x is "+x);
+				System.out.println("the answer is "+answer[x]);
+			}
+			letters[y]=1;
+		}
+
+		for(int x=0; x<26; x++) 
+		{
+			if(debug)
+				System.out.print(letters[x]);
+		}
+		System.out.println();
+		boolean active=true;
+		char input;
+		String inputlong;
+		int guesscount = 0;
+		int incorrectguesscount=0;
+		while(active) 
+		{
+			PrintMan(incorrectguesscount);
+			for(int x=0; x<inputlength; x++)
+			{
+				int letterid=toInt(answer[x]);
+
+				if(letters[letterid]==1)
+				{
+					System.out.print("-");
+				}
+				else
+				{
+					System.out.print(toChar(letterid));
+				}
+			}
+			System.out.println();
+
+			System.out.println("Guess a letter! Use $ to guess the word!");
+			input = reader.readChar();		
+			if(input=='$')
+			{
+				System.out.println("What do you think the word is?");
+				inputlong=reader.readLine().toUpperCase();
+				if(inputlong.equals(inputanswer))
+				{
+					System.out.println("You were correct!");
+					active=false;
+
+				}
+				else
+				{
+					System.out.println("Your guess is incorrect.");
+
+				}
+			}
+			if(input!='$')
+			{
+				if(letters[toInt(input)]==1)
+				{
+					letters[toInt(input)]=2;
+					System.out.println("You have correctly guessed "+input+"!");
+				}
+				else if(letters[toInt(input)]==0)
+				{
+					letters[toInt(input)]=2;
+					System.out.println("There are no "+input+"'s!");
+					incorrectguesscount++;
+				}
+				else if(letters[toInt(input)]==2)
+				{
+					System.out.println("You have already guessed "+input+"!");
+					incorrectguesscount++;
+				}
+				for(int x=0; x<26; x++)  // check thingy
+				{
+					if(incorrectguesscount>=8)
+					{
+						active=false;
+					}
+					else if(letters[x]==0||letters[x]==2)
+					{
+						active=false;
+					}
+					else
+					{
+						active=true;
+						break;
+					}
+				}
+			}
+			guesscount++;
+			System.out.println("You have guessed incorrectly "+incorrectguesscount+" times.");
+		}
+		if(guesscount<=6)
+		{
+			System.out.println("Congratulations, the word was "+inputanswer+"!");
+			System.out.println("You finished it in "+guesscount+" guesses!");
+		}
+		else if(guesscount>=7)
+		{
+			System.out.println("You have failed.");
+			System.out.println("The word was "+inputanswer+"!");
+		}
+	}
+	private static void PrintMan(int incorrectguesscount) 
+	{		
+		System.out.println("   _____   ");		
+		System.out.println("  /     \\   ");
+		if(incorrectguesscount>=1)
+			System.out.println("  O     |   ");	
+		else
+			System.out.println("        |   ");		
+
+		if(incorrectguesscount>=4)
+			System.out.println(" /|\\    |   ");	
+		else if (incorrectguesscount>=3)
+			System.out.println(" /|     |   ");	
+		else if (incorrectguesscount>=2)
+			System.out.println("  |     |   ");	
+		if(incorrectguesscount>=5)
+			System.out.println("  |     |   ");	
+		else
+			System.out.println("        |   ");	
+		if(incorrectguesscount>=7)
+			System.out.println(" / \\    |   ");	
+		else if (incorrectguesscount>=6)
+			System.out.println(" /      |   ");	
+		System.out.println("        |   ");		
+		System.out.println("        |   ");		
+		System.out.println(" _______|___");		
+		System.out.println("/XXXXXXXXXXX\\");		
+
+
+	}
+	private static char toChar(int input) 
+	{
+		char output='a';
+
+		if(input==0)
+			output='A';
+		else if(input==1)
+			output='B';
+		else if(input==2)
+			output='C';
+		else if(input==3)
+			output='D';
+		else if(input==4)
+			output='E';
+		else if(input==5)
+			output='F';
+		else if(input==6)
+			output='G';
+		else if(input==7)
+			output='H';
+		else if(input==8)
+			output='I';
+		else if(input==9)
+			output='J';
+		else if(input==10)
+			output='K';
+		else if(input==11)
+			output='L';
+		else if(input==12)
+			output='M';
+		else if(input==13)
+			output='N';
+		else if(input==14)
+			output='O';
+		else if(input==15)
+			output='P';
+		else if(input==16)
+			output='Q';
+		else if(input==17)
+			output='R';
+		else if(input==18)
+			output='S';
+		else if(input==19)
+			output='T';
+		else if(input==20)
+			output='U';
+		else if(input==21)
+			output='V';
+		else if(input==22)
+			output='W';
+		else if(input==23)
+			output='X';
+		else if(input==24)
+			output='Y';
+		else if(input==25)
+			output='Z';
+		return output;
+	}
+	private static int toInt(char x) 
+	{
+		int output = 0;
+		char input=Character.toUpperCase(x);
+
+		if(input=='A')
+			output=0;
+		else if(input=='B')
+			output=1;
+		else if(input=='C')
+			output=2;
+		else if(input=='D')
+			output=3;
+		else if(input=='E')
+			output=4;
+		else if(input=='F')
+			output=5;
+		else if(input=='G')
+			output=6;
+		else if(input=='H')
+			output=7;
+		else if(input=='I')
+			output=8;
+		else if(input=='J')
+			output=9;
+		else if(input=='K')
+			output=10;
+		else if(input=='L')
+			output=11;
+		else if(input=='M')
+			output=12;
+		else if(input=='N')
+			output=13;
+		else if(input=='O')
+			output=14;
+		else if(input=='P')
+			output=15;
+		else if(input=='Q')
+			output=16;
+		else if(input=='R')
+			output=17;
+		else if(input=='S')
+			output=18;
+		else if(input=='T')
+			output=19;
+		else if(input=='U')
+			output=20;
+		else if(input=='V')
+			output=21;
+		else if(input=='W')
+			output=22;
+		else if(input=='X')
+			output=23;
+		else if(input=='Y')
+			output=24;
+		else if(input=='Z')
+			output=25;
+
+		return output;
+	}
+}
