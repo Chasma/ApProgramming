@@ -1,0 +1,56 @@
+import TurtleGraphics.KeyboardReader;
+
+
+public class packet8ex10 {
+
+	public static void main(String[] args) {
+		KeyboardReader reader=new KeyboardReader();
+		int[] a = new int[20];
+		int[] t = new int[20];
+		int input = 0;
+		int highestvalue = 0;
+		boolean active = true, debug=true;
+		while(active)
+		{
+			System.out.println("\t1. Show array. \n\t2. Load array.\n\t3. Sort array.");
+			System.out.println("The highest value is "+highestvalue);
+			input = reader.readInt("\tSo what do you wanna do? ");
+			if(input==1)
+			{
+				for (int i=0; i<20; i++)
+				{
+					System.out.print("["+a[i]+"]");
+				}
+				System.out.println();
+			}
+			else if(input==2)
+			{
+				for (int i=0; i<20; i++)
+				{
+					a[i]=reader.readInt("Input for space ["+i+"]? ");
+					if(a[i]>highestvalue)
+					{
+						highestvalue=a[i];
+					}
+				}
+			}
+			else if(input==3)
+			{
+				int lowestvalue=0;
+				for (int i=0; i<20; i++)
+				{
+
+					for (int i1=0; i1<highestvalue; i1++)
+					{
+						if(a[i]==i)
+						{
+							t[i]=a[i];
+							a[i]=highestvalue+1;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
