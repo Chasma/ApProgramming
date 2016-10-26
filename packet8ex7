@@ -1,0 +1,131 @@
+import TurtleGraphics.KeyboardReader;
+public class packet8ex7b 
+{
+
+	public static void main(String[] args) throws InterruptedException 
+	{
+		// by Jan Matthew Tameta 
+		KeyboardReader reader=new KeyboardReader();
+		String currentplayer="", player1="", player2="";
+		char confirm='n';
+		int pilecount = 0;
+		int diff=0;
+		boolean debug=true;
+		while(confirm=='n')
+		{
+			player1=reader.readLine("Enter in the name of player 1 : ").toUpperCase();
+			player2=reader.readLine("Enter in the name of player 2 : ").toUpperCase();
+			System.out.println(player1+" VS "+player2);
+			pilecount=reader.readInt("How many Piles? ");
+			diff=reader.readInt("Difficulty Factor? (default is 1)");
+			confirm=reader.readChar("y/n?");
+		}
+		int targetpile, input; // main game program variables
+		boolean active=true;
+		currentplayer=player1;
+		int totalstones=0;
+
+		int[] stones = new int[pilecount+1];
+		int[] spaces = new int[pilecount+1];
+		for (int i=1; i<=pilecount; i++) //fills stones
+		{
+			stones[i]=i;
+			totalstones=totalstones+stones[i];
+		}
+
+
+
+		while(active) // main game program
+		{
+			for (int i=1; i<=pilecount; i++) //fills stones
+			{
+
+				spaces[i]=pilecount-stones[i];
+				if(debug)
+				{
+					System.out.print(spaces[i]+" ");
+				}
+			}
+			System.out.println("");
+			for (int q=1; q<=pilecount; q++) //printstones
+			{
+				for (int i=1; i<=pilecount; i++) //printstones
+				{
+					if(spaces[i]>=q)
+						System.out.print("   |    ");
+					else 
+						System.out.print(" **|**  ");
+
+				}	
+				System.out.println("");
+			}
+			System.out.println("");
+			for (int i=1; i<=pilecount; i++) //printstones
+			{
+				if(debug)
+					System.out.print(stones[i]+" ");
+			}	
+
+			System.out.println("");
+			if(debug)
+				System.out.println("There are currently "+totalstones+" stones total.");
+			System.out.println("It is "+currentplayer+"'s turn.");
+			System.out.println("You can take a maximum of "+(pilecount-diff)+" stones.");
+			targetpile=reader.readInt("\tWhat pile?\t");
+			while(targetpile<1||targetpile>pilecount||stones[targetpile]==0)
+			{
+				System.out.println("\tInvalid Move!\t");	
+				targetpile=reader.readInt("\tWhat pile?\t");
+			}
+			input=reader.readInt("\tHow many stones?\t");
+			while(stones[targetpile]-input<0||input<1||input>(pilecount-diff)||(totalstones-input)<0)
+			{
+				System.out.println("\tInvalid Move!\t");	
+			input=reader.readInt("\tHow many stones?\t");
+			}
+			
+			while(targetpile>pilecount||targetpile<1||stones[targetpile]-input<0||(targetpile>pilecount||targetpile<1)||input<1||input>(pilecount-diff)||(totalstones-input)<0)
+			{
+				if(debug)
+				{
+					System.out.print("The Pilecount Is "+pilecount);
+					System.out.print("There are currently "+totalstones+" total stones.");
+					System.out.print("Target Pile Is "+targetpile+" which has "+stones[targetpile]);
+				}
+				System.out.println("\tInvalid Move!\t");	
+				targetpile=reader.readInt("\tWhat pile?\t");
+				while(targetpile<1||targetpile>pilecount||stones[targetpile]==0)
+				{
+					System.out.println("\tInvalid Move!\t");	
+					targetpile=reader.readInt("\tWhat pile?\t");
+				}
+				while(stones[targetpile]-input<0||input<1||input>(pilecount-diff)||(totalstones-input)<0)
+				{
+					System.out.println("\tInvalid Move!\t");	
+				input=reader.readInt("\tHow many stones?\t");
+				}
+			}
+			stones[targetpile]=stones[targetpile]-input;
+			if(currentplayer==player2) //switches up the characters
+				currentplayer=player1;
+			else
+				currentplayer=player2;
+			totalstones-=input;
+			if(totalstones==0)
+			{
+
+				if(currentplayer==player2)
+					currentplayer=player1;				
+				else				
+					currentplayer=player2;
+
+				System.out.println(currentplayer+" has lost.");
+				active=false;
+			}
+		}
+
+
+
+
+	}
+}
